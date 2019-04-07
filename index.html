@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>js继承</title>
+</head>
+<body>
+    <h3>new做了什么</h3>
+    <ul>
+        <li>1.创建一个空对象obj</li>
+        <li>2.obj.__proto__=OBJ.prototype</li>
+        <li>3.执行OBJ的constructor() ,属性，方法什么的，this指向的是obj</li>
+        <li>4.如果OBJ返回一个对象，就直接返回这个对象</li>
+        <li>5.如果不是，则返回obj</li>
+    </ul>
+    <h3>
+        object.create(),
+    </h3>
+    <ul>
+        <li>1.创建一个新对象</li>
+        <li>2.把新对象的_proto_关联到指定对象的prototype</li>
+    </ul>
+    <h3>
+        Object.setPrototypeOf(),
+    </h3>
+    <ul>
+        <li>1.Object.setPrototypeOf(target.prototype,origin.prototype)</li>
+    </ul>
+
+</body>
+<script>
+    function Animal(){
+        this.eat=function(){
+            console.log('Animal eat');
+        }
+    }
+    Animal.prototype.eats=function(){
+        alert('Animal eats');
+    }
+    function Dog(){
+        console.log('this',this);//===构造函数Dog {bark: ƒ}
+        this.bark=function(){
+            console.log('dog bark');
+        }
+    }
+    Dog.prototype.wangwang=function(){
+        alert('汪汪~~~');
+    }
+    console.log('Dog.prototype-->',Dog.prototype);
+    Dog.prototype=new Animal();
+    var hashiqi=new Dog();
+    console.log('Dog.prototype.constructor-->',Dog.prototype.constructor);//Dog.prototype=new Animal();执行之后，发现他的constructor不指向自身了；所以需要我们手动修改
+    console.log('Dog--->',Dog);//Dog.prototype=new Animal();执行之后，发现他的constructor不指向自身了；所以需要我们手动修改
+    Dog.prototype.constructor=Dog;
+    console.log('修改后Dog.prototype.constructor-->',Dog.prototype.constructor);
+    console.log('hashiqi->>>',hashiqi);//===构造函数Dog {bark: ƒ}
+    console.log('hashiqi.__proto__->>>',hashiqi.__proto__);//===Dog的原型对象
+    console.log('Dog.prototype->>>',Dog.prototype);//Dog.prototype=new Animal;会重写Dog的prototype，所以wangwang不存在
+
+    hashiqi.bark()
+    hashiqi.eats();//Dog.prototype=new Animal;会让Dog拥有Animal的constructor、prototype里的方法和属性
+    hashiqi.eat();//Dog.prototype=new Animal;会让Dog拥有Animal的constructor、prototype里的方法和属性
+    // hashiqi.wangwang();//is not a function
+
+    console.log('使用object.create、Object.setPrototypeOf---------------------------');
+
+    function Fish(){
+        this.swim=function(){
+            console.log('Fish swim');
+        }
+    }
+    Fish.prototype=Object.create(Animal.prototype);
+    // Object.setPrototypeOf(Fish.prototype,Animal.prototype);
+    var fish=new Fish();
+    console.log('Fish.prototype.eats-->',Fish.prototype.eats);
+    console.log('fish.__proto__===Fish.prototype-->',fish.__proto__===Fish.prototype);
+    
+    fish.eats();
+    fish.swim();
+    fish.eat();//not a function 因为Object.create没有执行构造函数并修正this指向这一步,
+</script>
+</html>
