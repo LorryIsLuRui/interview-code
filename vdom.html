@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    <title>vdom</title>
+</head>
+<script>
+    const obj={
+        tag:"ul",
+        attrs:{
+            id:'list',
+        },
+        children:[
+            {
+                tag:'li',
+                attrs:{
+                    className:'item1',//class是js的保留字
+                },
+                children:['item1'],
+            },{
+                tag:'li',
+                attrs:{
+                    className:'item2',//class是js的保留字
+                },
+                children:['item2'],
+            }
+        ]
+    };
+    function updateChildren(vnode,newVnode){
+        // 【对比，渲染差异】patch(vnode,newVnode)
+        var children=vnode.children || [];
+        var newChildren=newVnode.children || [];
+        children.forEach((function(childVnode,index){
+            var newChildVnode=newChildren[index];
+            if(childVnode.tag===newChildVnode.tag){
+                // 深层次对比，递归
+                updateChildren(childVnode,newChildVnode)
+            }else{
+                // 替换
+                replaceNode(childVnode,newChildVnode);
+            }
+        }))
+    }
+    function replaceNode(vnode,newVnode){
+        var elem=vnode.elem;//真实的dom节点
+        var newElem=createElement();//【渲染】patch(container,vnode)  
+
+        // 替换
+    }
+    // TODO:将该数据展示成一个表格
+    // TODO:随便修改一个信息，表格也跟着修改
+    const data=[
+        {
+            name:'one',
+            age:20,
+            address:'北京'
+        },
+        {
+            name:'two',
+            age:21,
+            address:'上海'
+        },
+        {
+            name:'three',
+            age:22,
+            address:'西安'
+        },
+        {
+            name:'four',
+            age:23,
+            address:'南京'
+        },
+    ];
+    function render(data){
+        var $container=$('#container');
+        $container.html('');
+        var $table=$('<table>');
+            $table.append($('<tr><td>name</td><td>name</td><td>name</td>e</tr>'))
+    }
+    $('#btn').click(function(){
+        data[1].age=200;
+        data[2].address="天津";
+        render(data);
+    })
+    render(data);
+</script>
+<body>
+    <p>节点新增和删除，节点重新排序，节点属性、样式、事件绑定，如何极致压榨性能</p>
+    <p>.....</p>
+    <div id="container"></div>
+    <button id="btn"></button>
+</body>
+</html>
