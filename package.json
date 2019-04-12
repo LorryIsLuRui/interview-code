@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/LorryIsLuRui/interview-code/issues"
   },
-  "homepage": "https://github.com/LorryIsLuRui/interview-code#readme"
+  "homepage": "https://github.com/LorryIsLuRui/interview-code#readme",
+  "dependencies": {
+    "http-server": "^0.11.1",
+    "nodemon": "^1.18.11"
+  }
 }
