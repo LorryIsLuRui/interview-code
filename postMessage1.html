@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>postMessage1.html</title>
+</head>
+<script>
+    window.addEventListener('message',function(e){
+        console.log(e);
+    })
+    var targetWindow=window.open('http://127.0.0.1:8080/postMessage2.html');
+    alert(targetWindow)
+    console.log(targetWindow)
+    targetWindow.postMessage('m2','http://127.0.0.1:8080');
+</script>
+<body>
+    <p>postMessage1.html</p>
+</body>
+</html>

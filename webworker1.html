@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>web worker</title>
+</head>
+<script>
+    const worker=new Worker('webworker2.js');
+worker.onmessage=(e)=>{
+    console.log(e.data);
+}
+setTimeout(() => {
+    worker.terminate();
+}, 10000);
+</script>
+<body>
+        
+        <p>只能在服务器访问，不能直接打开html文件访问；不然汇报下面的错</p>
+        <pre>
+                Uncaught DOMException: Failed to construct 'Worker': Script at 'file:///D:/workspace/interview-code/webworker2.js' cannot be accessed from origin 'null'.
+        </pre>
+</body>
+</html>
