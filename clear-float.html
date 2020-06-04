@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>promise</title>
+    <style>
+			.left{
+				background: rgb(231, 166, 166); /* 浮动元素背景为 白色*/ 
+				float: left; /* 设置 图片浮动到左上角*/
+			}
+			.right{
+				background: rgb(156, 209, 212); /* 浮动元素背景为 白色*/ 
+				float: right; /* 设置 图片浮动到左上角*/
+			}
+			p{
+                width: 100px;
+                height: 40px;
+                background: red;  /* 文本元素背景为 红色*/
+				margin:0; /* 去掉 p 标签的上下边距*/
+			}
+            .blank{
+                clear: both;
+            }
+            /* .con::after{
+                content: '';
+                display: block;
+                clear: both;
+            } */
+    </style>
+    <script>
+        function Foo(){
+            console.log('inner this', this);
+            this.inname='lorry';
+            this.getName = function(){
+                console.log(4)
+            }
+            this.say = function(){
+                console.log('say')
+            }
+        }
+        Foo.getName = function(){
+            console.log(2)
+        }
+        Foo.prototype.getName = function(){
+            console.log(3)
+        }
+        Foo.getName();// 2;因为构造函数里的this指向window，所以this.getName是window上的方法
+        console.log(Foo.inname)
+        Foo.say();
+        console.log(Foo)
+        // // getName(); // 5
+        // var getName = function(){
+        //     console.log(4)
+        // }
+        // function getName (){
+        //     console.log(5)
+        // }
+        // getName(); // 4
+        // Foo.getName(); // 2
+        // console.log(Foo()); //this -> window
+        // Foo().getName(); // 4
+        // console.log('new foo', new Foo); // 此时Foo函数的this指向Foo
+        // new Foo.getName(); // 2 this -> Foo
+        // console.log(new Foo()); // Foo构造函数中不加this 输出3，加了this输出2
+        // new Foo().getName(); // 2 
+        // a=new new Foo().getName(); // Foo.getName {}
+        // console.log(a)
+    </script>
+</head>
+<body>
+       <!-- <div class="con"> -->
+        <p class="left">left</p> 
+        <p class="right">right</p> 
+        <div class="blank"></div>
+       <!-- </div> -->
+        <p class="test">test</p>
+    <!-- <div class="test">测试</div>
+    <div class="img"><img src="https://dss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=2494470475,2155723948&fm=85&app=92&f=PNG?w=121&h=75&s=F680DA0FCD64AC0B5608D8A20300A001" alt="" srcset=""></div> -->
+</body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <script src="https://fb.me/react-15.2.0.js"></script>
+
+        <script crossorigin src="https://unpkg.com/react@16/umd/react.development.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    </head>
+
+<body>
+
+    <div id="app-container"></div>
+
+    <script type="text/babel">
+        var SubCounter = React.createClass({
+            componentWillReceiveProps:function() {
+                console.log('9、子组件将要接收到新属性');
+            },
+            componentWillMount:function(){
+                console.log('子组件的componentwillmount');
+            },
+            componentDidMount:function(){
+                console.log('子组件的componentDidmount');
+            },
+            shouldComponentUpdate:function(newProps, newState) {
+                console.log('10、子组件是否需要更新');
+                if (newProps.number < 5) return true;
+                return false
+            },
+
+            componentWillUpdate:function() {
+                console.log('11、子组件将要更新');
+            },
+
+            componentDidUpdate:function() {
+                console.log('13、子组件更新完成');
+            },
+
+            componentWillUnmount:function() {
+                console.log('14、子组件将卸载');
+            },
+
+            render:function() {
+                console.log('12、子组件挂载中');
+                return (
+                        <p>{this.props.number}</p>
+                )
+            }
+        });
+
+        var Counter = React.createClass({
+           
+            getInitialState:function(){
+                return(
+                    this.state={
+                        number:0
+                    }
+                )
+            },
+
+            componentWillMount:function(){
+                console.log('3、父组件挂载之前');
+            },
+
+            componentDidMount:function(){
+                console.log('5、父组件挂载完成');
+            },
+
+            shouldComponentUpdate:function(newProps, newState) {
+                console.log('6、父组件是否需要更新');
+                if (newState.number<15) return true;
+                return false
+            },
+
+            componentWillUpdate:function() {
+                console.log('7、父组件将要更新');
+            },
+
+            componentDidUpdate:function() {
+                console.log('8、父组件更新完成');
+            },
+
+            handleClick : function(){
+                this.setState({
+                    number: this.state.number + 1
+                })
+            },
+            render:function() {
+                console.log('4、render(父组件挂载)');
+                return (
+                    <div>
+                        <p>{this.state.number}</p>
+                        <button onClick={this.handleClick}>+</button>
+                        {this.state.number<10?<SubCounter number={this.state.number}/>:null}
+                    </div>
+                )
+            }
+        });        
+
+        ReactDOM.render(<Counter />, document.getElementById('app-container'));
+
+    </script>
+
+</body>
+
+</html>

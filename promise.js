@@ -168,32 +168,32 @@
 //     console.log('succ2--->',data)
 // })
 // TODO:promise.all实现
-var p1=new Promise((resolve,reject)=>{
-    setTimeout(()=>{
-        resolve('1000')
-    },1000)
-})
-var p2=new Promise((resolve,reject)=>{
-    setTimeout(()=>{
-        resolve('200')
-    },200)
-})
-var p3=new Promise((resolve,reject)=>{
-    setTimeout(()=>{
-        reject('1500')
-    },1500)
-});
-p3.then((data)=>{
-    console.log(data);
-}).catch((e)=>{
-    console.log(e)
-})
-var pros=Promise.all([p1,p2,p3]);
-pros.then((data)=>{
-    console.log('all succ',data);
-},(e)=>{
-    console.log('one fail',e);
-})
+// var p1=new Promise((resolve,reject)=>{
+//     setTimeout(()=>{
+//         resolve('1000')
+//     },1000)
+// })
+// var p2=new Promise((resolve,reject)=>{
+//     setTimeout(()=>{
+//         resolve('200')
+//     },200)
+// })
+// var p3=new Promise((resolve,reject)=>{
+//     setTimeout(()=>{
+//         reject('1500')
+//     },1500)
+// });
+// p3.then((data)=>{
+//     console.log(data);
+// }).catch((e)=>{
+//     console.log(e)
+// })
+// var pros=Promise.all([p1,p2,p3]);
+// pros.then((data)=>{
+//     console.log('all succ',data);
+// },(e)=>{
+//     console.log('one fail',e);
+// })
 
 // var p1=new Promise((resolve,reject)=>{
 //     setTimeout(()=>{

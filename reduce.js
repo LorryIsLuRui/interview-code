@@ -47,6 +47,12 @@ var arr = [
 //     return prev+curr.total
 // },0);
 // console.log(sum)
+// TODO: reduceRight
+a=[1,2,3,4];
+a.reduceRight((pre, curr, i, arr) => {
+    console.log(pre, curr, i)
+    return curr+i;
+},0)
 // TODO:聚合为字符串
 // var result=arr.reduce((str,curr,index,arr)=>{
 //     return str+`id:${curr.id},type:${curr.type};`

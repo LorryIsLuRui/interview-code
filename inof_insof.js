@@ -27,6 +27,6 @@ function A(){
 };
 const a=new A();
 console.log(a instanceof A);
-console.log(myInstanceof(a,Object));
+// console.log(myInstanceof(a,Object));
 console.log(myInstanceof(A,Function));
 // console.log(a.__proto__.__proto__)

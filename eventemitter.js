@@ -29,3 +29,4 @@ ee.emit("test1",1);
 ee.emit("test",2);
 ee.emit("test",3);
 ee.emit("test",4);
+console.log(ee)

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>行内替换元素，行内非替换元素，块状替换元素</title>
+    <style>
+        .line{
+            width: 100%;
+            border: 1px solid red;
+            height: 2px;
+            margin: 100px 0px;
+        }
+        input,img{
+            border: 1px solid red;
+            padding: 20px;
+            background: blue;
+            margin: 10px;
+        }
+        span{
+            border: 1px solid red;
+            padding: 20px;
+            margin: 10px;
+            background: blue;
+        }
+        div{
+            width: 300px;
+            border: 1px solid green;
+        }
+    </style>
+</head>
+<body>
+    <p>替换元素：img、input、textarea、select、video</p>
+    <p>非替换元素：div、span、p</p>
+
+    <h3>行内替换元素设置padding、margin、background</h3>
+    <h5>设置padding、margin可以撑开父元素的高</h5>
+    <div>
+        <!-- <input type="email"/> -->
+        <img src="./1.jpg" alt="" srcset="">
+    </div>
+    <p class="line"></p>
+    <h3>行内非替换元素设置padding、margin、background</h3>
+    <h5>span的padding，左右外边距也生效，但是不会撑开父元素</h5>
+    <div>
+        <span>span</span>
+    </div>
+    <div>test</div>
+</body>
+</html>
