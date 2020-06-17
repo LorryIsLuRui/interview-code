@@ -67,7 +67,7 @@
 //     say:function (){
 //         console.log(this);
 //         setTimeout(function (){
-//             console.log(this);//Timeout对象
+//             console.log(this);//window对象
 //             console.log(this.name);//undefined
 //         },0)
 //         setTimeout( ()=>{

@@ -15,15 +15,16 @@ function createTree(arr){
     return p
 }
 // 0表示空节点
-let arr = [1,2,4,0,0,5,0,0,3,6,0,0,7,0,0];
+// let arr = [1,2,4,0,0,5,0,0,3,6,0,0,7,0,0];
+let arr = [1,2,4,0,0,0,6,0,0,0,0,0,0];
 const root = createTree(arr);
 console.log(root);
-const res=[];
+// const res=[];
 // FIXME:非递归遍历
 // 前序遍历
-function pre(arr){
-    res.push(arr.shift());
-}
+// function pre(arr){
+//     res.push(arr.shift());
+// }
 // FIXME:递归遍历
 // 后序遍历
 // function end(tree){
@@ -82,6 +83,6 @@ function pre(arr){
 //     return res;
 // };
 // console.log(preorderTraversal(tree));
-end(root);
+// end(root);
 
-console.log(res);
+// console.log(res);

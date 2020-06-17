@@ -2,6 +2,9 @@
 //如果调用该方法时没有使用参数，将按字母顺序对数组中的元素进行排序，说得更精确点，
 // 是按照字符编码的顺序进行排序。要实现这一点，首先应把数组的元素都转换成字符串（如有必要），以便进行比较。
 
+// https://juejin.im/post/5e3cc31f51882549291268bf
+// sort原理 https://juejin.im/post/5d78a69d6fb9a06b084d208d
+// <10个 插入排序，>10快速排序
 // V8 引擎 sort 函数只给出了两种排序 InsertionSort 和 QuickSort，
 // 数量小于10的数组使用 InsertionSort，比10大的数组则使用 QuickSort。
 

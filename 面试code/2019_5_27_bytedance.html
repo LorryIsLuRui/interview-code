@@ -7,6 +7,7 @@
 </head>
 <body>
     <script>
+        // https://segmentfault.com/q/1010000011576064
         // function Foo(){
         //     console.log('inner this', this);
         //     return this;
@@ -34,6 +35,129 @@
         // new Foo().getName(); // 2 
         // a=new new Foo().getName(); // Foo.getName {}
         // console.log(a)
+
+// js实现控制并发数，即一个时间内允许异步数
+class limitRequest{
+    constructor(max){
+        this.max = max;
+        this.queue = [];
+        this.count = 0; // 当前正在执行的异步数量
+    }
+    promisify(fn, args, res, rej){
+        return () => {
+            this.count += this.count;
+            console.log(`job ${args[0]} start`);
+            fn(args)
+            .then(res)
+            .catch(rej)
+            .finally(() => {
+                this.count -= this.count;
+                if(this.queue.length){
+                    const task = this.queue.shift();
+                    task();
+                }
+            })
+        }
+    }
+    /**
+     * 
+     * @param {function} fn 异步函数
+     * @param  {...any} rest 函数参数
+     */
+    call(fn){
+        return (...rest) => {
+            return new Promise((resolve, reject) => {
+                const task = this.promisify(fn, rest, resolve, reject);
+                if(this.count >= this.max){
+                    this.queue.push(task);
+                }else{
+                    task();
+                }
+            })
+        }
+    }
+}
+function get(args){
+    return new Promise((res, rej) => {
+        setTimeout(res, args[1])
+    })
+}
+function post(url){
+    return new Promise((res, rej) => {
+        setTimeout(() => {
+            console.log('post ' + url);
+            res();
+        }, 1000)
+    })
+}
+const lp = new limitRequest(2)
+// const getMethod = lp.call(get);
+// getMethod('第1个异步',2000).then(res => {
+//     console.log(`job 1 end`);
+
+// })
+// getMethod('第2个异步', 500000).then(res => {
+//     console.log(`job 2 end`);
+
+// })
+// getMethod('第3个异步', 2000).then(res => {
+//     console.log(`job 3 end`);
+
+// })
+// getMethod('第4个异步', 1000).then(res => {
+//     console.log(`job 4 end`);
+// })
+/* promise-limit.js */
+/* jshint esversion: 6 */
+/*jslint node: true */
+// Promise.allLimit = function(arr, wrap, limit, callback) {
+//   return new Promise((resolve, reject) => {
+//     var total = arr.length;
+//     var result = new Array(total);
+//     var rejected = false;
+//     var dones = 0;
+//     function run(n) {
+//       setTimeout(() => {
+//         wrap(n, arr.shift()).then(res => {
+//           return typeof callback === 'function' ? callback(n, res) : Promise.resolve(res);
+//         }).then(res => {
+//           dones++;
+//           result[n] = res;
+//           if (!rejected) {
+//             if (arr.length) {
+//               run(total - arr.length);
+//             } else if (dones === total) {
+//               resolve(result);
+//             }
+//           }
+//         }).catch(err => {
+//           rejected = true;
+//           reject(err);
+//         });
+//       }, 0);
+//     }
+//     arr.slice(0, limit).forEach((v, n) => {
+//       run(n);
+//     });
+//   });
+// };
+// Promise.allLimit([2000, 1500, 2500, 3000, 1500], function(n, time) {
+//   return new Promise((resolve, reject) => {
+//     console.log("Start Job: ", n, time);
+//     // setTimeout(2500 === time ? reject : resolve, time, "Time: " + time); // 测试reject
+//     setTimeout(resolve, time, "Time: " + time);
+//   });
+// }, 2, (n, res) => {
+//   // log Job n done
+//   console.log("Done Job: ", res);
+//   return Promise.resolve(n);
+// // log Job n done
+// }).then(result => {
+//   console.log("All Done: ", result);
+// }).catch(err => {
+//   console.log("Error: ", err);
+// });
+ 
     </script>
 </body>
 </html>

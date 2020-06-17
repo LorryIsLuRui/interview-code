@@ -10,21 +10,21 @@ function add(num1,num2){
 function total(){
     return 50+add(1,2);
 }
-function curry(fn) {
-  var slice = Array.prototype.slice;
-  var args = slice.call(arguments, 1);
-  const that=this;
-  return function() {
-    var innerArgs = slice.call(arguments);
-    var finalArgs = args.concat(innerArgs);
-    return fn.apply(that, finalArgs);
-  };
-}
-function add(num1, num2, num3) {
-  return num1 + num2 + num3;
-}
-var res = curry(add, 50)(1, 2);
-console.log(res)
+// function curry(fn) {
+//   var slice = Array.prototype.slice;
+//   var args = slice.call(arguments, 1);
+//   const that=this;
+//   return function() {
+//     var innerArgs = slice.call(arguments);
+//     var finalArgs = args.concat(innerArgs);
+//     return fn.apply(that, finalArgs);
+//   };
+// }
+// function add(num1, num2, num3) {
+//   return num1 + num2 + num3;
+// }
+// var res = curry(add, 50)(1, 2);
+// console.log(res)
 // TODO:写一个bind
 // Function.prototype.bind=function(self){
 //     const that=this;
@@ -43,3 +43,21 @@ console.log(res)
 // }
 // a.bind(obj)('gg');
 // console.log(obj)
+class Login{
+  constructor(){}
+  login(){
+    // ....
+  }
+}
+Login.getInstance = function(){
+  let instance;
+  return () =>{
+    if(!instance){
+      instance = new Login();
+    }
+    return instance;
+  }
+}();
+const a=Login.getInstance();
+const b=Login.getInstance();
+console.log(a === b);
