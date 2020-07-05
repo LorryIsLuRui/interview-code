@@ -2,7 +2,7 @@
 function Node(data){
     this.left=null;
     this.right=null;
-    this.data=data;
+    this.value=data;
 }
 function createTree(arr){
     let p=null;
@@ -15,8 +15,8 @@ function createTree(arr){
     return p
 }
 // 0表示空节点
-// let arr = [1,2,4,0,0,5,0,0,3,6,0,0,7,0,0];
-let arr = [1,2,4,0,0,0,6,0,0,0,0,0,0];
+let arr = [1,2,4,0,0,5,0,0,3,6,0,0,7,0,0];
+// let arr = [1,2,4,0,0,0,6,0,0,0,0,0,0];
 const root = createTree(arr);
 console.log(root);
 // const res=[];
@@ -86,3 +86,62 @@ console.log(root);
 // end(root);
 
 // console.log(res);
+
+// 广度优先遍历 BFS
+function levelOrder(tree){
+    const queue = [tree];
+    const data = [];
+    let levelRemain = 1; // because default level = root;
+    let currLevel = 1; // current level, default = root[1]
+    let NextLevelHas = 0; // next level node's number
+    let levelRes = []; // current level result;
+    while(queue.length > 0){
+      const curr = queue.shift();
+      levelRes.push(curr.value);
+      levelRemain--;
+      if(curr.left){
+        NextLevelHas += 1;
+        queue.push(curr.left);
+      }
+      if(curr.right){
+        NextLevelHas += 1;
+        queue.push(curr.right);
+      }
+      if(levelRemain <= 0){
+        data.push(levelRes);
+        levelRes = [];
+        currLevel += 1;
+        levelRemain = NextLevelHas;
+        NextLevelHas = 0;
+      }
+    }
+    console.log(data);
+    return data
+}
+
+console.log('广度优先遍历');
+levelOrder(root); // [ [ 1 ], [ 2, 3 ], [ 4, 5, 6, 7 ] ]
+// 深度优先遍历 DFS
+function getTree(tree){
+    if(!tree) return null;
+    const data = [];
+    data.push(tree.value);
+    if(tree.left){
+        data.push(...getTree(tree.left));
+    }
+    if(tree.right){
+        data.push(...getTree(tree.right));
+    }
+    return data || null;
+}
+function deepOrder(tree){
+    let data = [];
+    data.push(tree.value);
+    const leftVal = tree.left ? getTree(tree.left) : null;
+    const rightVal = tree.right ? getTree(tree.right) : null;
+    data = data.concat(leftVal, rightVal);
+    console.log(data)
+    return data;
+}
+console.log('深度优先遍历'); 
+deepOrder(root); // [ 1, 2, 4, 5, 3, 6, 7 ]
