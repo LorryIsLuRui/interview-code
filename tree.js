@@ -145,3 +145,6 @@ function deepOrder(tree){
 }
 console.log('深度优先遍历'); 
 deepOrder(root); // [ 1, 2, 4, 5, 3, 6, 7 ]
+
+// dom节点的遍历，非二叉树
+// https://segmentfault.com/a/1190000018706578
