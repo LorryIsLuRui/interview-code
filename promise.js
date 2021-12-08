@@ -139,12 +139,7 @@
 // myPromise.prototype.then=function(succFn,errFn){
 //     const that=this;
 //     console.log(that)
-//     if(that.status==='resolved'){
-//         console.log('aa');
-//         succFn(that.res);
-//     }else if(that.status==='rejected'){
-//         errFn(that.err);
-//     }else if(that.status==='pending'){
+//     if(that.status==='pending'){
 //         // 是异步
 //         that.succCallbacks.push(function(){
 //             succFn(that.res);
@@ -311,3 +306,203 @@
 // },(e)=>{
 //     console.log('one err->',e);
 // })
+
+// class Promise{
+//     constructor(fn){
+//         this.self=this;
+//       this.self.status='pending';
+//       this.self.fn = fn;
+//       this.self.succCb = [];
+//       this.self.failCb = [];
+//       this.self.data = null;
+//       this.self.err = null;
+//       console.log('con',this);
+      
+//       this.self.exec()
+//     }
+//     resolve(data){
+//         console.log('this ===> ', this);
+//       if(this.self.status === 'pending'){
+//         this.self.status === 'resolved';
+//         this.self.data.push(data);
+//         this.self.succCb(this.self.data);
+//       }
+//     }
+//     reject(err){
+//       if(this.self.status === 'pending'){
+//         this.self.status === 'rejected';
+//         this.self.err.push(err);
+//         this.self.failCb(this.self.err);
+//       }
+//     }
+//     exec(){
+//       this.self.fn(this.self.resolve, this.self.reject);
+//     }
+//     then(res, rej){
+//         const { status } = this.self;
+//         console.log('then',this);
+//         if(status === 'pending'){
+//         console.log('then1',this);
+        
+//         this.self.succCb = res;
+//         this.self.failCb = rej;
+//       }
+//     }
+//   }
+// es6 下面写法需要babel转换
+/*
+class Promise{
+  constructor(props){
+    this.status = 'pending';
+    this.data = null;
+    this.err = null;
+    this.succCb = null;
+    this.failCb = null;
+    
+    props(this.resolve, this.reject);
+  }
+  reject = (para) => {
+    if(this.status === 'pending' && this.failCb){
+        this.status = 'rejected';
+        this.err = para;
+        this.failCb(this.err);
+    }
+  }
+  resolve = (para) => {
+    if(this.status === 'pending' && this.succCb){
+        this.status = 'resolved';
+        this.data = para;
+        this.succCb(this.data);
+    }
+  }
+  say = () => {
+      console.log('hhh')
+  }
+  then(res, err){
+    if(this.status === 'pending'){
+      this.succCb = res;
+      this.failCb = err;
+    }
+  }
+}
+  const p=new Promise((res,rej)=>{
+    setTimeout(() => {
+      console.log('timeout')
+      res('promise');
+    }, 1000)
+  })
+  p.then(res=>{
+    console.log(res);
+  },rej=>{
+    console.log(rej);
+  });
+  p.say();
+*/
+/*
+class Promise{
+    name = 'lorry'
+    click = () => {
+        console.log('constructor')
+    }
+    click(){
+        console.log('proto')
+    }
+    constructor(fn){
+        this.status='pending';
+        this.fn = fn;
+        this.succCb = [];
+        this.failCb = [];
+        this.data = [];
+        this.err = [];
+        const resolve = (data) => {
+            if(this.status === 'pending'){
+                this.status === 'resolved';
+                this.data.push(data);
+                this.succCb.forEach((v) => {
+                    v(this.data);
+                });
+            }
+        }
+        const reject = (err) => {
+            if(this.status === 'pending'){
+                this.status === 'rejected';
+                this.err.push(err);
+                this.failCb.forEach((v) => {
+                    v(this.err);
+                });
+            }
+        }
+        this.fn(resolve,reject)
+    }
+    then(res, rej){
+      if(this.status === 'pending'){
+        this.succCb.push(res);
+        this.failCb.push(rej);
+      }
+      return this;
+    }
+  }
+  const p=new Promise((res,rej)=>{
+    setTimeout(() => {
+      res('promise');
+    }, 1000)
+  });
+  console.log('p.name ===> ', p.name);
+  console.log('p.status ===> ', p.status);
+  p.click();
+  p.then(res=>{
+    console.log(res);
+  },rej=>{
+    console.log(rej);
+  })
+  .then(res=>{
+    console.log('2',res);
+  },rej=>{
+    console.log('2',rej);
+  });
+  */
+
+//   Promise.allSettled()
+/*
+Promise.allSettled = function (arr){
+    const data = [];
+    let num=0;
+    return new Promise((resolve, reject) => {
+      arr.forEach((v,i,arr)=>{
+        const pro = Promise.resolve(v);
+        pro.then(res => {
+          data.push({
+            status: 'fulfilled',
+            value: res,
+          });
+          num += 1;
+          if(num === arr.length) resolve(data);
+        }, err => {
+          data.push({
+            status: 'rejected',
+            reason: err,
+          });
+          num += 1;
+          if(num === arr.length) resolve(data);
+        })
+      })
+      
+    })
+  }
+  function createProArr(arr){
+    return arr.map((v,i,arr)=>new Promise((res,rej)=>{
+      console.log(v + ' promise done')
+      if(v<2) res(v);
+      else rej(v + ' reject')
+    }))
+  }
+  const arr = [1,4,1,2]; 
+  const pros=createProArr(arr);
+  Promise.allSettled(pros).then(res=>{
+    console.log('all res ',res);
+  },rej=>{
+    console.log('all rej ', rej);
+  })
+*/
+// const arr=[1,2,3];
+// arr.map((v,i,arr))
